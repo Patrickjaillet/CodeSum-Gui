@@ -2,7 +2,7 @@
 
 **Generate optimized code summaries that reduce token usage by 10-20x and deliver 4x faster results when working with AI coding assistants.**
 
-CodeSum is a terminal-based tool that transforms your codebase into perfectly formatted context for Large Language Models. Through an interactive file selector, intelligent compression, and persistent configurations, CodeSum makes it effortless to provide your AI assistant with exactly the right code context—without the overhead.
+CodeSum is a terminal-based tool that transforms your codebase into perfectly formatted context for Large Language Models. It now also includes a polished PySide6 GUI for users who prefer a graphical workflow. Through an interactive file selector, intelligent compression, and persistent configurations, CodeSum makes it effortless to provide your AI assistant with exactly the right code context—without the overhead.
 
 ![File Selection Interface](docs/screenshots/file-selection.png)
 
@@ -23,7 +23,15 @@ CodeSum solves both problems:
 
 ## Version 0.3.0 Highlights
 
-This release introduces major workflow improvements and a completely redesigned user experience:
+This release introduces major workflow improvements and a completely redesigned user experience. A new GUI mode is now available alongside the existing TUI.
+
+### GUI Mode (New)
+
+- Full PySide6 graphical interface in `src/codesum/gui`.
+- Interactive file tree with status columns, token counts, and compression toggles.
+- Central dashboard with generation progress, logs, and rich Markdown preview.
+- Persistent selection/config state and config management dialogs.
+- Keyboard shortcuts and right-click context menus for fast operation.
 
 ### Per-File Compression
 - Mark individual files for AI-powered compression with the `S` key

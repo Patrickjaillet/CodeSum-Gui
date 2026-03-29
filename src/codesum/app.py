@@ -5,6 +5,45 @@ import argparse # Import argparse
 from pathlib import Path
 from openai import OpenAI # Just for type hint
 
+# PySide6 est importé conditionnellement pour ne pas casser le mode TUI
+# si PySide6 n'est pas installé.
+def _launch_gui() -> None:
+    """Lance l'interface graphique PySide6."""
+    try:
+        from PySide6.QtWidgets import QApplication
+        from PySide6.QtCore import Qt
+    except ImportError:
+        print(
+            "Erreur : PySide6 n'est pas installé.\n"
+            "Installez-le avec : pip install PySide6",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    from .gui.main_window import MainWindow, _make_app_icon, apply_dark_palette
+
+    # Activer le DPI haute résolution (macOS / Windows HiDPI)
+    QApplication.setHighDpiScaleFactorRoundingPolicy(
+        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+    )
+
+    app = QApplication(sys.argv)
+    app.setApplicationName("CodeSum")
+    app.setApplicationDisplayName("CodeSum")
+    app.setApplicationVersion("0.3.1")
+
+    # Thème sombre natif Qt (palette + style Fusion qui respecte la palette)
+    app.setStyle("Fusion")
+    apply_dark_palette(app)
+
+    # Icône globale de l'application
+    app.setWindowIcon(_make_app_icon())
+
+    window = MainWindow()
+    window.show()
+
+    sys.exit(app.exec())
+
 # Import from our modules
 # Use explicit relative imports
 from . import config
@@ -27,6 +66,11 @@ def main():
         help="Run the interactive configuration wizard for API key and model, then exit."
     )
     parser.add_argument(
+        "--gui",
+        action="store_true",
+        help="Lancer l'interface graphique PySide6 au lieu du TUI curses."
+    )
+    parser.add_argument(
         "--mcp-server",
         action="store_true",
         help="Run the MCP server instead of the interactive application."
@@ -44,6 +88,11 @@ def main():
     )
     # Add other arguments here if needed in the future (e.g., --non-interactive, --output-dir)
     args = parser.parse_args()
+
+    # --- Handle GUI Mode ---
+    if args.gui:
+        _launch_gui()
+        return  # _launch_gui appelle sys.exit(), mais par sécurité
 
     # --- Handle Configuration Mode ---
     if args.configure:

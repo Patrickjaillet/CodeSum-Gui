@@ -29,6 +29,7 @@ dependencies = [
     "pyperclip",
     "platformdirs >= 4.0.0",
     "tiktoken", # Added for token counting
+    "PySide6>=6.5.0", # Interface graphique (optionnelle, nécessaire pour --gui)
     "windows-curses; sys_platform == 'win32'",
     "importlib-resources; python_version < '3.9'", # Backport for older Python
 ]

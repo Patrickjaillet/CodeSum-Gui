@@ -1,0 +1,2 @@
+[console_scripts]
+codesum = codesum.app:main
